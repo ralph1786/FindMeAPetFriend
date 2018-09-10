@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css?family=Merienda|Roboto+Slab");
+
+body {
+  font-family: "Roboto Slab", serif;
+  font-size: 1.75em;
+}
+h2 {
+  font-family: "Merienda", cursive;
+  color: rgb(92, 165, 92);
+  cursor: pointer;
+}
+
+li:nth-child(1) {
+  color: rgb(73, 207, 252);
+}
+
+li:nth-child(2) {
+  color: rgb(209, 135, 135);
+  cursor: pointer;
+}
+
+li:nth-child(3) {
+  color: rgb(92, 165, 92);
+}

@@ -13,7 +13,7 @@ _npm install fetch-jsonp_
 
 The last dependency fetch-jsonp is used specifically for the api.
 
-Once you have project in you computer open the terminal and write
+Once you have the project in you computer open the terminal and write
 npm install
 To install the node_modules folder
 

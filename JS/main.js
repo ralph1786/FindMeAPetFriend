@@ -1,8 +1,10 @@
-import fetchJsonp from "fetch-jsonp";
-import { isValidZip } from "./validate";
-import { showAlert } from "./validate";
+// import fetchJsonp from "fetch-jsonp";
+import { isValidZip, showAlert } from "./validate.js";
+// import { showAlert } from "./validate.js";
 
 const petForm = document.querySelector("#pet-form");
+const accessToken =
+  "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImE4NGEyMGVlMTQxNDQ1Mjc1ZmY2YjQyOTVmN2U5Nzk0ZGMxNGMxNDlhMjI3MDQ5NGE0NDAxZDgxM2I3NmFkMDE5MjVhMGE5NzhlOTJlZjcyIn0.eyJhdWQiOiIxbE5XZ1BHaWV6WkNlaWZjd0l6RFVTNTMxS0M3bzNRelg2a3JHMk5YVTlJbGdUYlNWayIsImp0aSI6ImE4NGEyMGVlMTQxNDQ1Mjc1ZmY2YjQyOTVmN2U5Nzk0ZGMxNGMxNDlhMjI3MDQ5NGE0NDAxZDgxM2I3NmFkMDE5MjVhMGE5NzhlOTJlZjcyIiwiaWF0IjoxNTY0MTY4MTc0LCJuYmYiOjE1NjQxNjgxNzQsImV4cCI6MTU2NDE3MTc3NCwic3ViIjoiIiwic2NvcGVzIjpbXX0.IVcViSkWk7-Z_l5I_CUYAPsVkJnEn_V3Vcj6G5_IzTu48178fi4q6fq8hht4k3Tg0x0fPKqx__mPO4CER7WxV_9E7Jj11JwuJ0sbc8_pEi8aUAeXMSdIV30PE2cQn894CXHLIX8eUNlYkWGWbohUESqTKyN5o66mP-kMW3qlGmiQNv7xC5BmJoDBbH5LT9ni1rdhs1wTx9WCe_sX-ggl8Duie7tsENoplIKKBS4NbgdqM-bnIQyufBvBu9Yb1vFBtN9rNIY7Awwgpcy3r3vlF5MZeoPnwvtK-95J3LEPSahkgpR879LRz25GOwaCidRC1QaosMn3_xlt5MwK7PGvLg";
 
 petForm.addEventListener("submit", fetchAnimals);
 
@@ -17,14 +19,16 @@ function fetchAnimals(e) {
     showAlert("Please Enter a Valid Zipcode");
   }
   //Fetch Pets
-  fetchJsonp(
-    `http://api.petfinder.com/pet.find?format=json&key=d4507af808a734b446dd5ac5dc43321b&animal=${animal}&location=${zip}&callback=callback`,
-    {
-      jsonpCallbackFunction: "callback"
+  fetch(`https://api.petfinder.com/v2/animals?location=${zip}&type=${animal}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
     }
-  )
+  })
     .then(res => res.json())
-    .then(data => showAnimals(data.petfinder.pets.pet))
+    .then(data => {
+      console.log(data);
+      showAnimals(data.animals);
+    })
     .catch(err => console.log(err));
 }
 
@@ -44,13 +48,13 @@ function showAnimals(pets) {
     div.innerHTML = `
             <div class='row>
                 <div class='col-sm-6'>
-                    <h4>${pet.name.$t} (${pet.age.$t})</h4>
-                    <p class="text-secondary">${pet.breeds.breed.$t} (${
-      pet.sex.$t
+                    <h4>${pet.name} (${pet.age})</h4>
+                    <p class="text-secondary">${pet.breeds.primary} (${
+      pet.gender
     })</p>
-                    <p>${pet.contact.address1.$t}, ${pet.contact.city.$t}, ${
-      pet.contact.state.$t
-    } ${pet.contact.zip.$t}</p>
+                    <p>${pet.contact.address.address1}, ${
+      pet.contact.address.city
+    }, ${pet.contact.address.state} ${pet.contact.address.postcode}</p>
                     <ul class="list-group">
                        <li class='list-group-item'>Phone: ${
                          pet.contact.phone.$t

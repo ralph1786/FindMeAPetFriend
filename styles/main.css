@@ -22,3 +22,26 @@ li:nth-child(2) {
 li:nth-child(3) {
   color: rgb(92, 165, 92);
 }
+
+#pet-form {
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  margin-bottom: 2em;
+}
+
+#results {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
+}
+
+#results > p {
+  text-align: center;
+}
+
+.card {
+  -webkit-box-shadow: 10px 10px 5px -7px rgba(60, 192, 78, 0.76);
+  -moz-box-shadow: 10px 10px 5px -7px rgba(60, 192, 78, 0.76);
+  box-shadow: 10px 10px 5px -7px rgba(60, 192, 78, 0.76);
+}

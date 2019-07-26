@@ -4,7 +4,7 @@ import { isValidZip, showAlert } from "./validate.js";
 
 const petForm = document.querySelector("#pet-form");
 const accessToken =
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImE4NGEyMGVlMTQxNDQ1Mjc1ZmY2YjQyOTVmN2U5Nzk0ZGMxNGMxNDlhMjI3MDQ5NGE0NDAxZDgxM2I3NmFkMDE5MjVhMGE5NzhlOTJlZjcyIn0.eyJhdWQiOiIxbE5XZ1BHaWV6WkNlaWZjd0l6RFVTNTMxS0M3bzNRelg2a3JHMk5YVTlJbGdUYlNWayIsImp0aSI6ImE4NGEyMGVlMTQxNDQ1Mjc1ZmY2YjQyOTVmN2U5Nzk0ZGMxNGMxNDlhMjI3MDQ5NGE0NDAxZDgxM2I3NmFkMDE5MjVhMGE5NzhlOTJlZjcyIiwiaWF0IjoxNTY0MTY4MTc0LCJuYmYiOjE1NjQxNjgxNzQsImV4cCI6MTU2NDE3MTc3NCwic3ViIjoiIiwic2NvcGVzIjpbXX0.IVcViSkWk7-Z_l5I_CUYAPsVkJnEn_V3Vcj6G5_IzTu48178fi4q6fq8hht4k3Tg0x0fPKqx__mPO4CER7WxV_9E7Jj11JwuJ0sbc8_pEi8aUAeXMSdIV30PE2cQn894CXHLIX8eUNlYkWGWbohUESqTKyN5o66mP-kMW3qlGmiQNv7xC5BmJoDBbH5LT9ni1rdhs1wTx9WCe_sX-ggl8Duie7tsENoplIKKBS4NbgdqM-bnIQyufBvBu9Yb1vFBtN9rNIY7Awwgpcy3r3vlF5MZeoPnwvtK-95J3LEPSahkgpR879LRz25GOwaCidRC1QaosMn3_xlt5MwK7PGvLg";
+  "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImI2YzE0YjNlMGQ1MDIwNDMyMGFiYTUxNTBkY2Y2ZTA1ZDhmMmFkMWE4NzZhM2M4NmU0ODYyMmYzYWE5MzY3NzM5NzlhOTM4Yzc4MmFmN2UxIn0.eyJhdWQiOiIxbE5XZ1BHaWV6WkNlaWZjd0l6RFVTNTMxS0M3bzNRelg2a3JHMk5YVTlJbGdUYlNWayIsImp0aSI6ImI2YzE0YjNlMGQ1MDIwNDMyMGFiYTUxNTBkY2Y2ZTA1ZDhmMmFkMWE4NzZhM2M4NmU0ODYyMmYzYWE5MzY3NzM5NzlhOTM4Yzc4MmFmN2UxIiwiaWF0IjoxNTY0MTcyMTA2LCJuYmYiOjE1NjQxNzIxMDYsImV4cCI6MTU2NDE3NTcwNSwic3ViIjoiIiwic2NvcGVzIjpbXX0.SAhluzuiiPOBzhHEg6eoCA6ysMLs82rckTUwrL1Ft-vQxeAJkbU5RDr4rVPJ6Hq86QtdYCEi2FyOyZ8BdLKcd36nqPevfIBbzetSnpUNdMpEeJHpK4H5-lNjYZb9ltS_1rgo7P4wLJudZ-SH3bw6DXBY8cby5hnX_QPU8R1k6luv2kV4iZkCjcpXm-xZdHWm5uIVgDSdI9yppa9tm2R5CnGkjF48iYxXoBTP8EmiEf3_4f-xkNfRWJhuKyimbtSJrlS13XNq0JXUkDboRiW2b_WjaEf4t6bo5N9EWHsxXrzv0ubzBSKbmImJOM9IzmK2LBOkbF7dNyn6ox5k5FgM9w";
 
 petForm.addEventListener("submit", fetchAnimals);
 
@@ -16,7 +16,7 @@ function fetchAnimals(e) {
   const zip = document.querySelector("#zip").value;
   //Validate zipcode
   if (!isValidZip(zip)) {
-    showAlert("Please Enter a Valid Zipcode");
+    showAlert("Please Enter a Valid Zipcode", "danger");
   }
   //Fetch Pets
   fetch(`https://api.petfinder.com/v2/animals?location=${zip}&type=${animal}`, {
@@ -32,10 +32,37 @@ function fetchAnimals(e) {
     .catch(err => console.log(err));
 }
 
+function petCard(pet) {
+  return `
+                <div class="content">
+                    <p>Name: ${pet.name}</p>
+                    <p>Age: ${pet.age}</p>
+                    <p>Breed: ${pet.breeds.primary}</p>
+                    <p>Gender: ${pet.gender}</p>
+                    <p>Address: ${
+                      pet.contact.address.address1 === null
+                        ? "Street Address Unavailable"
+                        : pet.contact.address.address1
+                    }, ${pet.contact.address.city}, ${
+    pet.contact.address.state
+  } ${pet.contact.address.postcode}</p>
+                    <ul>
+                       <li>Phone: ${pet.contact.phone}</li>
+                       ${
+                         pet.contact.email
+                           ? `<li>Email: ${pet.contact.email}</li>`
+                           : ``
+                       }
+                       <li>Shelter ID: ${pet.organization_id}</li>
+                    </ul>
+                </div>
+        `;
+}
+
 //Show List of Pets.
 function showAnimals(pets) {
   console.log(pets);
-  const results = document.querySelector("#results");
+  const results = document.querySelector(".results");
   //clear first results.
   results.innerHTML = "";
   //Loop Through Pets
@@ -43,41 +70,9 @@ function showAnimals(pets) {
     //creates a element which later will be added to the page.
     const div = document.createElement("div");
     //adds following bootstrap classes to the created element.
-    div.classList.add("card", "card-body", "mb-3");
+    div.classList.add("card");
     //adds content to the created element.
-    div.innerHTML = `
-            <div class='row>
-                <div class='col-sm-6'>
-                    <h4>${pet.name} (${pet.age})</h4>
-                    <p class="text-secondary">${pet.breeds.primary} (${
-      pet.gender
-    })</p>
-                    <p>${pet.contact.address.address1}, ${
-      pet.contact.address.city
-    }, ${pet.contact.address.state} ${pet.contact.address.postcode}</p>
-                    <ul class="list-group">
-                       <li class='list-group-item'>Phone: ${
-                         pet.contact.phone.$t
-                       }</li>
-                       ${
-                         pet.contact.email.$t
-                           ? `<li class='list-group-item'>Email: ${
-                               pet.contact.email.$t
-                             }</li>`
-                           : ``
-                       }
-                       <li class='list-group-item'>Shelter ID: ${
-                         pet.shelterId.$t
-                       }</li>
-                    </ul>
-                </div>
-                <div class='col-sm-6 text-center'>
-                    <img class='img-fluid rounded-circle mt-2' src='${
-                      pet.media.photos.photo[3].$t
-                    }'
-                </div>
-            </div>
-        `;
+    div.innerHTML = petCard(pet);
     //finally adds created element to the page.
     results.appendChild(div);
   });

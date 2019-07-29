@@ -11,16 +11,16 @@ h2 {
 }
 
 li:nth-child(1) {
-  color: rgb(73, 207, 252);
+  color: rgb(42, 197, 248);
 }
 
 li:nth-child(2) {
-  color: rgb(209, 135, 135);
+  color: rgb(236, 65, 65);
   cursor: pointer;
 }
 
 li:nth-child(3) {
-  color: rgb(92, 165, 92);
+  color: rgb(250, 163, 23);
 }
 
 #pet-form {
@@ -42,22 +42,21 @@ li:nth-child(3) {
 }
 
 .card {
-  -webkit-box-shadow: 14px 10px 32px -7px rgba(96, 248, 215, 0.76);
-  -moz-box-shadow: 14px 10px 32px -7px rgba(96, 248, 215, 0.76);
-  box-shadow: 14px 10px 32px -7px rgba(96, 248, 215, 0.76);
+  -webkit-box-shadow: 14px 10px 32px -7px rgba(180, 180, 180, 0.76);
+  -moz-box-shadow: 14px 10px 32px -7px rgba(180, 180, 180, 0.76);
+  box-shadow: 14px 10px 32px -7px rgba(180, 180, 180, 0.76);
   border: none;
   border-radius: 25px;
+  background: rgba(179, 221, 212, 0.76);
 }
 
 .card:hover {
-  background: rgb(230, 231, 230);
+  background: rgba(152, 252, 230, 0.76);
   transform: scale(1.03);
-  transition: all 0.6s ease-in;
+  transition: all 0.5s ease-in;
 }
 
 .card .content {
   padding: 10px;
   font-size: 14px;
 }
-
-/* rgba(168, 255, 180, 0.76); */

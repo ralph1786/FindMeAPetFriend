@@ -17,14 +17,8 @@ _npm install fetch-jsonp_
 
 The last dependency fetch-jsonp is used specifically for this api.
 
-<<<<<<< HEAD
 Once you have project in you computer open the terminal and write the following command: _npm install_
 This will install the dependencies necessaries for the application to work.
-=======
-Once you have the project in you computer open the terminal and write
-npm install
-To install the node_modules folder
->>>>>>> 36cbd10bda830b2a28fb8b6b7fcc362daa125647
 
 To run the app write _parcel_ on the terminal, this will start a server on
 localhost:1234.

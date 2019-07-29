@@ -1,10 +1,24 @@
 // import fetchJsonp from "fetch-jsonp";
 import { isValidZip, showAlert } from "./validate.js";
-// import { showAlert } from "./validate.js";
+import petCard from "./petCard.js";
 
 const petForm = document.querySelector("#pet-form");
-const accessToken =
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImI2YzE0YjNlMGQ1MDIwNDMyMGFiYTUxNTBkY2Y2ZTA1ZDhmMmFkMWE4NzZhM2M4NmU0ODYyMmYzYWE5MzY3NzM5NzlhOTM4Yzc4MmFmN2UxIn0.eyJhdWQiOiIxbE5XZ1BHaWV6WkNlaWZjd0l6RFVTNTMxS0M3bzNRelg2a3JHMk5YVTlJbGdUYlNWayIsImp0aSI6ImI2YzE0YjNlMGQ1MDIwNDMyMGFiYTUxNTBkY2Y2ZTA1ZDhmMmFkMWE4NzZhM2M4NmU0ODYyMmYzYWE5MzY3NzM5NzlhOTM4Yzc4MmFmN2UxIiwiaWF0IjoxNTY0MTcyMTA2LCJuYmYiOjE1NjQxNzIxMDYsImV4cCI6MTU2NDE3NTcwNSwic3ViIjoiIiwic2NvcGVzIjpbXX0.SAhluzuiiPOBzhHEg6eoCA6ysMLs82rckTUwrL1Ft-vQxeAJkbU5RDr4rVPJ6Hq86QtdYCEi2FyOyZ8BdLKcd36nqPevfIBbzetSnpUNdMpEeJHpK4H5-lNjYZb9ltS_1rgo7P4wLJudZ-SH3bw6DXBY8cby5hnX_QPU8R1k6luv2kV4iZkCjcpXm-xZdHWm5uIVgDSdI9yppa9tm2R5CnGkjF48iYxXoBTP8EmiEf3_4f-xkNfRWJhuKyimbtSJrlS13XNq0JXUkDboRiW2b_WjaEf4t6bo5N9EWHsxXrzv0ubzBSKbmImJOM9IzmK2LBOkbF7dNyn6ox5k5FgM9w";
+let accessToken;
+
+window.addEventListener("DOMContentLoaded", () => {
+  fetch("https://api.petfinder.com/v2/oauth2/token", {
+    body:
+      "grant_type=client_credentials&client_id=1lNWgPGiezZCeifcwIzDUS531KC7o3QzX6krG2NXU9IlgTbSVk&client_secret=OhgLYXbM38W35CyuJas3bHV2MI8X2sYyobVi4PUK",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    method: "POST"
+  })
+    .then(res => res.json())
+    .then(data => {
+      accessToken = data.access_token;
+    });
+});
 
 petForm.addEventListener("submit", fetchAnimals);
 
@@ -30,33 +44,6 @@ function fetchAnimals(e) {
       showAnimals(data.animals);
     })
     .catch(err => console.log(err));
-}
-
-function petCard(pet) {
-  return `
-                <div class="content">
-                    <p>Name: ${pet.name}</p>
-                    <p>Age: ${pet.age}</p>
-                    <p>Breed: ${pet.breeds.primary}</p>
-                    <p>Gender: ${pet.gender}</p>
-                    <p>Address: ${
-                      pet.contact.address.address1 === null
-                        ? "Street Address Unavailable"
-                        : pet.contact.address.address1
-                    }, ${pet.contact.address.city}, ${
-    pet.contact.address.state
-  } ${pet.contact.address.postcode}</p>
-                    <ul>
-                       <li>Phone: ${pet.contact.phone}</li>
-                       ${
-                         pet.contact.email
-                           ? `<li>Email: ${pet.contact.email}</li>`
-                           : ``
-                       }
-                       <li>Shelter ID: ${pet.organization_id}</li>
-                    </ul>
-                </div>
-        `;
 }
 
 //Show List of Pets.

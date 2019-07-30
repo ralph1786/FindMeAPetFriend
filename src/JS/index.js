@@ -2,6 +2,9 @@ import { isValidZip, showAlert } from "./validate";
 import petCard from "./petCard";
 
 const petForm = document.querySelector("#pet-form");
+const loadingSpinner = document.querySelector(".loader");
+const results = document.querySelector(".results");
+loadingSpinner.style.display = "none";
 let accessToken;
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -16,7 +19,8 @@ window.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(data => {
       accessToken = data.access_token;
-    });
+    })
+    .catch(err => console.log(err));
 });
 
 petForm.addEventListener("submit", fetchAnimals);
@@ -24,13 +28,16 @@ petForm.addEventListener("submit", fetchAnimals);
 //Fetch Animals from API.
 function fetchAnimals(e) {
   e.preventDefault();
+  //Clear results if changing zip code
+  results.innerHTML = "";
   //Get User Input
   const animal = document.querySelector("#animal").value;
   const zip = document.querySelector("#zip").value;
   //Validate zipcode
   if (!isValidZip(zip)) {
-    showAlert("Please Enter a Valid Zipcode", "danger");
+    return showAlert("Please Enter a Valid Zipcode", "danger");
   }
+  loadingSpinner.style.display = "block";
   //Fetch Pets
   fetch(`https://api.petfinder.com/v2/animals?location=${zip}&type=${animal}`, {
     headers: {
@@ -39,7 +46,7 @@ function fetchAnimals(e) {
   })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
+      loadingSpinner.style.display = "none";
       showAnimals(data.animals);
     })
     .catch(err => console.log(err));
@@ -47,15 +54,13 @@ function fetchAnimals(e) {
 
 //Show List of Pets.
 function showAnimals(pets) {
-  console.log(pets);
-  const results = document.querySelector(".results");
   //clear first results.
   results.innerHTML = "";
   //Loop Through Pets
   pets.forEach(pet => {
     //creates a element which later will be added to the page.
     const div = document.createElement("div");
-    //adds following bootstrap classes to the created element.
+    //adds following class to the created element.
     div.classList.add("card");
     //adds content to the created element.
     div.innerHTML = petCard(pet);

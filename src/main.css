@@ -59,6 +59,17 @@ li:nth-child(3) {
   }
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
 .results {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 450px));
@@ -74,6 +85,7 @@ li:nth-child(3) {
   border: none;
   border-radius: 25px;
   background: rgba(179, 221, 212, 0.76);
+  animation: fadeIn 0.9s ease-in;
 }
 
 .card:hover {

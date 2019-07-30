@@ -1,5 +1,6 @@
 import { isValidZip, showAlert } from "./validate";
 import petCard from "./petCard";
+import { petFinderApiKey } from "../../constant";
 
 const petForm = document.querySelector("#pet-form");
 const loadingSpinner = document.querySelector(".loader");
@@ -9,8 +10,7 @@ let accessToken;
 
 window.addEventListener("DOMContentLoaded", () => {
   fetch("https://api.petfinder.com/v2/oauth2/token", {
-    body:
-      "grant_type=client_credentials&client_id=1lNWgPGiezZCeifcwIzDUS531KC7o3QzX6krG2NXU9IlgTbSVk&client_secret=OhgLYXbM38W35CyuJas3bHV2MI8X2sYyobVi4PUK",
+    body: `grant_type=client_credentials&client_id=${petFinderApiKey}`,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },

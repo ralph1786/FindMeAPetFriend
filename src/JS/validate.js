@@ -1,3 +1,5 @@
+const zipInput = document.querySelector("#zip");
+
 //Validate a zipcode.
 export function isValidZip(zip) {
   return /^\d{5}(-\d{4})?$/.test(zip);
@@ -17,8 +19,11 @@ export function showAlert(message, className) {
   const form = document.querySelector("#pet-form");
   //insert alert message
   container.insertBefore(div, form);
-  //Remove alert after 3 seconds.
+  zipInput.focus();
+  zipInput.style.backgroundColor = "#fcb8b9";
+  //Remove alert and color of input field after 2.5 seconds.
   setTimeout(() => {
     document.querySelector(".alert").remove();
-  }, 3000);
+    zipInput.style.backgroundColor = "white";
+  }, 2500);
 }

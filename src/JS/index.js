@@ -1,6 +1,5 @@
-// import fetchJsonp from "fetch-jsonp";
-import { isValidZip, showAlert } from "./validate.js";
-import petCard from "./petCard.js";
+import { isValidZip, showAlert } from "./validate";
+import petCard from "./petCard";
 
 const petForm = document.querySelector("#pet-form");
 let accessToken;

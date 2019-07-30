@@ -1,3 +1,4 @@
+import "../main.css";
 function petCard(pet) {
   return `
                 <div class="content">

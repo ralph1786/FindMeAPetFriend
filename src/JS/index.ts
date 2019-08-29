@@ -3,10 +3,10 @@ import petCard from "./petCard";
 import { petFinderApiKey } from "../../constant";
 
 const petForm = document.querySelector("#pet-form");
-const loadingSpinner = document.querySelector(".loader");
+const loadingSpinner = <HTMLElement>document.querySelector(".loader");
 const results = document.querySelector(".results");
 loadingSpinner.style.display = "none";
-let accessToken;
+let accessToken: string;
 
 window.addEventListener("DOMContentLoaded", () => {
   fetch("https://api.petfinder.com/v2/oauth2/token", {
@@ -24,15 +24,15 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 petForm.addEventListener("submit", fetchAnimals);
-
 //Fetch Animals from API.
-function fetchAnimals(e) {
+function fetchAnimals(e: { preventDefault: () => void }) {
   e.preventDefault();
   //Clear results if changing zip code
   results.innerHTML = "";
   //Get User Input
-  const animal = document.querySelector("#animal").value;
-  const zip = document.querySelector("#zip").value;
+  const animal: string = (<HTMLInputElement>document.querySelector("#animal"))
+    .value;
+  const zip: string = (<HTMLInputElement>document.querySelector("#zip")).value;
   //Validate zipcode
   if (!isValidZip(zip)) {
     return showAlert("Please Enter a Valid Zipcode", "danger");
@@ -53,7 +53,7 @@ function fetchAnimals(e) {
 }
 
 //Show List of Pets.
-function showAnimals(pets) {
+function showAnimals(pets: object[]) {
   //clear first results.
   results.innerHTML = "";
   //Loop Through Pets

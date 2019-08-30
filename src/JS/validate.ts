@@ -1,12 +1,12 @@
-const zipInput = document.querySelector("#zip");
+const zipInput = <HTMLInputElement>document.querySelector("#zip");
 
 //Validate a zipcode.
-export function isValidZip(zip) {
+export function isValidZip(zip: string): boolean {
   return /^\d{5}(-\d{4})?$/.test(zip);
 }
 
-//Display alert message if not a correct zipcode format is used.
-export function showAlert(message, className) {
+//Display alert message if incorrect zip code format is used.
+export function showAlert(message: string, className: string) {
   //create div
   const div = document.createElement("div");
   //add classes

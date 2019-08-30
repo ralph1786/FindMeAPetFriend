@@ -5,6 +5,7 @@ import { petFinderApiKey } from "../../constant";
 const petForm = document.querySelector("#pet-form");
 const loadingSpinner = <HTMLElement>document.querySelector(".loader");
 const results = document.querySelector(".results");
+const zipInputField = <HTMLInputElement>document.querySelector("#zip");
 loadingSpinner.style.display = "none";
 let accessToken: string;
 
@@ -32,21 +33,26 @@ function fetchAnimals(e: { preventDefault: () => void }) {
   //Get User Input
   const animal: string = (<HTMLInputElement>document.querySelector("#animal"))
     .value;
-  const zip: string = (<HTMLInputElement>document.querySelector("#zip")).value;
+  const zipCode: string = zipInputField.value;
   //Validate zipcode
-  if (!isValidZip(zip)) {
+  if (!isValidZip(zipCode)) {
+    zipInputField.value = "";
     return showAlert("Please Enter a Valid Zipcode", "danger");
   }
   loadingSpinner.style.display = "block";
   //Fetch Pets
-  fetch(`https://api.petfinder.com/v2/animals?location=${zip}&type=${animal}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`
+  fetch(
+    `https://api.petfinder.com/v2/animals?location=${zipCode}&type=${animal}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
     }
-  })
+  )
     .then(res => res.json())
     .then(data => {
       loadingSpinner.style.display = "none";
+      zipInputField.value = "";
       showAnimals(data.animals);
     })
     .catch(err => console.log(err));

@@ -1,5 +1,5 @@
 import { isValidZip, showAlert } from "./validate";
-import petCard from "./petCard";
+import { petCard, IPet } from "./petCard";
 import { petFinderApiKey } from "../../constant";
 
 const petForm = document.querySelector("#pet-form");
@@ -57,7 +57,8 @@ function showAnimals(pets: object[]) {
   //clear first results.
   results.innerHTML = "";
   //Loop Through Pets
-  pets.forEach(pet => {
+  pets.forEach((pet: IPet) => {
+    console.log(pet);
     //creates a element which later will be added to the page.
     const div = document.createElement("div");
     //adds following class to the created element.

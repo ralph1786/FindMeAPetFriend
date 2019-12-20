@@ -20,28 +20,29 @@ export interface IPet {
   };
 }
 
-export function petCard(pet: IPet) {
-  const { name, age, breeds, gender, contact, organization_id } = pet;
+export function petCard<T extends IPet>(pet: T) {
+  const {
+    name,
+    age,
+    breeds: { primary },
+    gender,
+    contact: { address, phone, email },
+    organization_id
+  } = pet;
   return `
                 <div class="content">
                     <p>Name: ${name}</p>
                     <p>Age: ${age}</p>
-                    <p>Breed: ${breeds.primary}</p>
+                    <p>Breed: ${primary}</p>
                     <p>Gender: ${gender}</p>
                     <p>Address: ${
-                      contact.address.address1 === null
+                      address.address1 === null
                         ? "Street Address Unavailable"
-                        : contact.address.address1
-                    }, ${contact.address.city}, ${contact.address.state} ${
-    contact.address.postcode
-  }</p>
+                        : address.address1
+                    }, ${address.city}, ${address.state} ${address.postcode}</p>
                     <ul>
-                       <li>Phone: ${
-                         contact.phone === null ? "Unavailable" : contact.phone
-                       }</li>
-                       ${
-                         contact.email ? `<li>Email: ${contact.email}</li>` : ``
-                       }
+                       <li>Phone: ${phone === null ? "Unavailable" : phone}</li>
+                       ${email ? `<li>Email: ${email}</li>` : ``}
                        <li>Shelter ID: ${organization_id}</li>
                     </ul>
                 </div>

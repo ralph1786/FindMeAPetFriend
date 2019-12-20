@@ -1,4 +1,4 @@
-const zipInput = <HTMLInputElement>document.querySelector("#zip");
+const zipInput = document.querySelector("#zip") as HTMLInputElement;
 
 //Validate a zipcode.
 export function isValidZip(zip: string): boolean {
@@ -6,7 +6,7 @@ export function isValidZip(zip: string): boolean {
 }
 
 //Display alert message if incorrect zip code format is used.
-export function showAlert(message: string, className: string) {
+export function showAlert<T extends string>(message: T, className: T) {
   //create div
   const div = document.createElement("div");
   //add classes
@@ -25,5 +25,5 @@ export function showAlert(message: string, className: string) {
   setTimeout(() => {
     document.querySelector(".alert").remove();
     zipInput.style.backgroundColor = "white";
-  }, 2500);
+  }, 3000);
 }

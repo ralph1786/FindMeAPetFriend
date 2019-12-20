@@ -53,18 +53,19 @@ function fetchAnimals(e: { preventDefault: () => void }) {
     .then(data => {
       loadingSpinner.style.display = "none";
       zipInputField.value = "";
+      // console.log(data);
       showAnimals(data.animals);
     })
     .catch(err => console.log(err));
 }
 
 //Show List of Pets.
-function showAnimals(pets: object[]) {
+function showAnimals<T extends object[]>(pets: T) {
   //clear first results.
   results.innerHTML = "";
   //Loop Through Pets
   pets.forEach((pet: IPet) => {
-    console.log(pet);
+    // console.log(pet);
     //creates a element which later will be added to the page.
     const div = document.createElement("div");
     //adds following class to the created element.

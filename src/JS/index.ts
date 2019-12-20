@@ -3,9 +3,9 @@ import { petCard, IPet } from "./petCard";
 import { petFinderApiKey } from "../../constant";
 
 const petForm = document.querySelector("#pet-form");
-const loadingSpinner = <HTMLElement>document.querySelector(".loader");
+const loadingSpinner = document.querySelector(".loader") as HTMLElement;
 const results = document.querySelector(".results");
-const zipInputField = <HTMLInputElement>document.querySelector("#zip");
+const zipInputField = document.querySelector("#zip") as HTMLInputElement;
 loadingSpinner.style.display = "none";
 let accessToken: string;
 
@@ -31,7 +31,7 @@ function fetchAnimals(e: { preventDefault: () => void }) {
   //Clear results if changing zip code
   results.innerHTML = "";
   //Get User Input
-  const animal: string = (<HTMLInputElement>document.querySelector("#animal"))
+  const animal: string = (document.querySelector("#animal") as HTMLInputElement)
     .value;
   const zipCode: string = zipInputField.value;
   //Validate zipcode
